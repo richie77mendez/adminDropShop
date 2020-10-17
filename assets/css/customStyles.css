@@ -1,0 +1,55 @@
+.input-field {
+    width: 30%;
+    margin: 10px;
+}
+
+.input-time-medium {
+    width: 30%;
+    margin: 5px;
+}
+
+.inputDateMedium {
+    width: 40%;
+    margin: 5px;
+}
+
+.label-margin {
+    margin: 10px;
+}
+
+h1 {
+    color: #464646;
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.dowPicker {
+    /* width: 400px; */
+    /* margin: 0 auto; */
+    /* text-align: center; */
+    /* padding: 5px; */
+}
+
+.labelPicker {
+    font-size: 25px;
+    color: #fff;
+    cursor: pointer;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+input[type=checkbox]:checked~label {
+    color: #004f25;
+}
+
+.dowPickerOption {
+    display: inline-block;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #00c25b;
+    border-radius: 10px;
+    /* background-color: #000; */
+}
