@@ -83,36 +83,51 @@
 
     <div class="container">
 
-      <div class="col-lg-8 mt-5 mt-lg-0">
-
-        <form method="post" role="form" autocomplete="off" class="php-email-form">
-          <div class="form-row">
-            <div class="col-md-6 form-group">
-              <div class="section-title">
-                <p>Nombre</p>
-              </div>
-              <input type="text" name="nombre" class="form-control" id="nameTransport" placeholder="Nombre" data-msg="Porfavor ingresa un nombre valido." />
-              <div class="validate" id="validateNameTransport"></div>
+      <form method="post" role="form" autocomplete="off" class="php-email-form">
+        <div class="form-row">
+          <div class="col-md-6 form-group">
+            <div class="section-title">
+              <p>Nombre</p>
             </div>
-            <div class="col-md-6 form-group">
-              <div class="section-title">
-                <p>Descripcion</p>
-              </div>
-              <input type="text" name="nombre" class="form-control" id="descriptionTransport" placeholder="Descripcion" data-msg="Porfavor ingresa una descripcion valida." />
-              <div class="validate" id="validateDescriptionTransport"></div>
-            </div>
-
-            <div class="text-center">
-              <button type="submit" onclick="saveTransportista()">
-                Agregar
-              </button>
-            </div>
+            <input type="text" name="nombre" class="form-control" id="nameTransport" placeholder="Nombre" data-msg="Porfavor ingresa un nombre valido." />
+            <div class="validate" id="validateNameTransport"></div>
           </div>
-        </form>
-
-      </div>
+          <div class="col-md-6 form-group">
+            <div class="section-title">
+              <p>Descripcion</p>
+            </div>
+            <input type="text" name="nombre" class="form-control" id="descriptionTransport" placeholder="Descripcion" data-msg="Porfavor ingresa una descripcion valida." />
+            <div class="validate" id="validateDescriptionTransport"></div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" onclick="saveTransportista()">
+            Agregar Transporte
+          </button>
+        </div>
+      </form>
 
     </div>
+
+    <div class="container">
+
+      <div class="section-title">
+        <!-- <h2>Transportistas disponibles</h2> -->
+        <!-- <p>Gestiona tus metodos de transporte</p> -->
+      </div>
+
+      <div class="table table-hover">
+        <table id="tableTransportistas" class="table table-borderless table-striped table-earning">
+          <thead class="thead-dark">
+            <tr>
+              <th>Transporte</th>
+              <th>Descripcion</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="bodyTransportistas"></tbody>
+        </table>
+      </div>
 
     </div>
   </section><!-- End Sesion Section -->
@@ -169,7 +184,7 @@
             <select class="form-control custom-select" id="nombreTransporte"></select>
           </div>
           <div class="form-group input-field">
-            <label>Nombre</label>
+            <label>Metodo</label>
             <input type="text" name="nombreMetodoEnvio" class="form-control" id="nombreMetodoEnvio" placeholder="Nombre del método" data-rule="minlen:6" data-msg="Porfavor ingresa un nombre valido." />
           </div>
           <div class="form-group input-field">
@@ -234,6 +249,26 @@
 
     </div>
 
+    <div class="container">
+
+      <div class="section-title">
+        <!-- <h2>Metodos de Envío</h2> -->
+        <!-- <p>Gestiona tus metodos de transporte</p> -->
+      </div>
+
+      <div class="table table-hover">
+        <table id="tableMetodosEnvio" class="table table-borderless table-striped table-earning">
+          <thead class="thead-dark">
+            <tr>
+              <th>Metodo</th>
+              <th>Transporte</th>
+              <th>Descripcion</th>
+            </tr>
+          </thead>
+          <tbody id="bodyMetodosEnvio"></tbody>
+        </table>
+      </div>
+
   </section>
 
   <section id="zonaGeograficaEnvio" class="contact">
@@ -249,20 +284,23 @@
       <form method="post" role="form" autocomplete="off" class="php-email-form">
         <div class="form-row">
           <div class="form-group input-field">
-            <label for="exampleInputEmail1">Metodo de Envío</label>
-            <select class="form-control custom-select" id="nombresMetodoEnvio"></select>
+            <label for="exampleInputEmail1">Metodo de envío</label>
+            <select class="form-control custom-select" id="nombresTransporte"></select>
           </div>
           <div class="form-group input-field">
             <label>Pais</label>
-            <select class="form-control custom-select" id="nombresPaises"></select>
+            <select class="form-control custom-select" id="nombresPaises" onchange="loadCiudades()">
+              <option title="Selecciona el pais">-- Seleccione el pais</option>
+            </select>
           </div>
           <div class="form-group input-field">
             <label for="exampleInputEmail1">Ciudad</label>
-            <select class="form-control custom-select" id="nombresCiudades"></select>
+            <select class="form-control custom-select" id="nombresCiudades">
+            </select>
           </div>
           <div class="form-group input-field">
             <label for="exampleInputEmail1">Costo</label>
-            <input type="number" min=0.0 step="1.0" name="precio" class="form-control" id="precioZona" placeholder="Precio del Produto" data-rule-number data-msg="Porfavor ingresa un precio valido" />
+            <input type="number" min=0.0 step="1.0" name="precio" class="form-control" id="precioZona" placeholder="Costo del metodo" data-rule-number data-msg="Porfavor ingresa un precio valido" />
           </div>
         </div>
         <div class="text-center">
@@ -270,6 +308,25 @@
         </div>
       </form>
 
+    </div>
+
+    <div class="container">
+      <div class="section-title">
+      </div>
+
+      <div class="table table-hover">
+        <table id="tableZones" class="table table-borderless table-striped table-earning">
+          <thead class="thead-dark">
+            <tr>
+              <th>Metodo de envio</th>
+              <th>Pais</th>
+              <th>Ciudad</th>
+              <th>Costo</th>
+            </tr>
+          </thead>
+          <tbody id="bodyZonas"></tbody>
+        </table>
+      </div>
     </div>
 
   </section>
