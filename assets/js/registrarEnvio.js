@@ -1,10 +1,12 @@
 const TEXT_NO = 'no';
 const TEXT_YES = 'yes';
+var zones = [];
 
 loadTransportes();
 loadMetodosEnvio();
+loadZonasEnvio();
 loadPaises();
-loadCiudades();
+// loadCiudades();
 
 
 var sunday = false;
@@ -110,7 +112,7 @@ function saveTransportista() {
         .then(function(docRef) {
             console.log("Transportista escrito con ID: ", docRef.id);
         })
-        .then(() => setDefaultValuesTransportistas)
+        .then(() => setDefaultValuesTransportistas())
         .catch(function(error) {
             console.error("Error adding document: ", error);
         });
@@ -122,8 +124,6 @@ function saveMetodoEnvio() {
     var transport = document.getElementById("nombreTransporte");
     var idTransport = transport.options[transport.selectedIndex].value;
     var nameTransport = transport.options[transport.selectedIndex].text;
-    // var idTransport = document.getElementById('nombreTransporte').value;
-    // var nameTransport = document.getElementById('nombreTransporte').textContent;
     var initHour = document.getElementById('inicioHorario').value;
     var endHour = document.getElementById('finHorario').value;
     var availability = this.disponibilidad;
@@ -151,7 +151,9 @@ function saveMetodoEnvio() {
 }
 
 function saveZonaEnvio() {
-    var metodoEnvio = document.getElementById('nombresMetodoEnvio').value;
+    var metodoEnvio = document.getElementById('nombresTransporte').value;
+    let metodoEnvioT = document.getElementById('nombresTransporte');
+    let metodoEnvioText = metodoEnvioT.options[metodoEnvioT.selectedIndex].title;
     var pais = document.getElementById("nombresPaises");
     var valuePais = pais.options[pais.selectedIndex].value;
     var ciudad = document.getElementById("nombresCiudades");
@@ -159,20 +161,27 @@ function saveZonaEnvio() {
     var precioZona = document.getElementById("precioZona").value;
     var now = firebase.firestore.FieldValue.serverTimestamp();
 
-    db.collection("zonasEnvio").add({
-            metod: metodoEnvio,
-            country: valuePais,
-            city: valueCiudad,
-            cost: precioZona,
-            createdAt: now,
-            updatedAt: now,
-        })
-        .then(function(docRef) {
-            console.log("Metodo envio escrito con ID: ", docRef.id);
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
+    if (metodoEnvio && valuePais && valueCiudad) {
+        db.collection("zonasEnvio").add({
+                metod: metodoEnvio,
+                nameMetod: metodoEnvioText,
+                country: valuePais,
+                city: valueCiudad,
+                cost: precioZona,
+                createdAt: now,
+                updatedAt: now,
+            })
+            .then(function(docRef) {
+                console.log("Metodo envio escrito con ID: ", docRef.id);
+            })
+            .then(() => reloadAll())
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+    } else {
+
+    }
+
 
 }
 
@@ -206,47 +215,86 @@ function setDefaultValuesTransportistas() {
 function loadTransportes() {
 
     var select = document.getElementById("nombreTransporte");
+    let table = document.getElementById("bodyTransportistas");
+    table.innerHTML = "";
 
     db.collection("transportistas")
+        .orderBy("name")
         .get()
         .then(function(querySnapshot) {
+            let docs = querySnapshot.data;
+
             querySnapshot.forEach(function(doc) {
                 var option = document.createElement("option");
+                // Elementos de tabla BodyTransportistas
+                let row = table.insertRow();
+                let nameT = row.insertCell(0);
+                let descriptionT = row.insertCell(1);
+                let stateT = row.insertCell(2);
+                nameT.innerHTML = doc.data().name;
+                descriptionT.innerHTML = doc.data().description;
+                stateT.innerHTML = doc.data().state;
+                // Elementos de select nombreTransporte
                 option.text = doc.data().name;
                 option.title = doc.data().name;
                 option.value = doc.id;
                 select.add(option);
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data().name);
             });
         });
-
-
-    // var example_array = {
-    //     ValueA: 'Transporte 1',
-    //     ValueB: 'Transporte 2',
-    //     ValueC: 'Transporte 3'
-    // };
-
-    // for (index in example_array) {
-    //     select.options[select.options.length] = new Option(example_array[index], index);
-    // }
 }
 
 function loadMetodosEnvio() {
 
-    var select = document.getElementById("nombresMetodoEnvio");
-
+    var transportes = document.getElementById("nombresTransporte");
+    let table = document.getElementById("bodyMetodosEnvio");
+    table.innerHTML = "";
     db.collection("metodosEnvio")
+        .orderBy("nameTransport")
         .get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                var option = document.createElement("option");
-                var name = doc.data().name + " - " + doc.data().nameTransport;
-                option.text = name;
-                option.title = name;
-                option.value = doc.id;
-                select.add(option);
+                var optionTransporte = document.createElement("option");
+
+                let row = table.insertRow();
+                let nameME = row.insertCell(0);
+                let transportME = row.insertCell(1);
+                let descriptionME = row.insertCell(2);
+                nameME.innerHTML = doc.data().name;
+                transportME.innerHTML = doc.data().nameTransport;
+                descriptionME.innerHTML = doc.data().description;
+
+                var transporte = doc.data().nameTransport + ': ' + doc.data().name;
+
+                optionTransporte.text = transporte;
+                optionTransporte.title = transporte;
+                optionTransporte.value = doc.id;
+
+                transportes.add(optionTransporte);
+            });
+        });
+}
+
+function loadZonasEnvio() {
+
+    var select = document.getElementById("nombresMetodoEnvio");
+    let table = document.getElementById("bodyZonas");
+    table.innerHTML = "";
+
+    db.collection("zonasEnvio")
+        .orderBy("nameMetod")
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+
+                let row = table.insertRow();
+                let nameME = row.insertCell(0);
+                let country = row.insertCell(1);
+                let city = row.insertCell(2);
+                let cost = row.insertCell(3);
+                nameME.innerHTML = doc.data().nameMetod;
+                country.innerHTML = doc.data().country;
+                city.innerHTML = doc.data().city;
+                cost.innerHTML = doc.data().cost;
             });
         });
 }
@@ -254,36 +302,55 @@ function loadMetodosEnvio() {
 function loadPaises() {
 
     var select = document.getElementById("nombresPaises");
+    let zones = [];
 
-    var example_array = {
-        Guatemala: 'Guatemala',
-        EstadosUnidos: 'Estados Unidos',
-        Mexico: 'Mexico'
-    };
 
-    for (index in example_array) {
-        select.options[select.options.length] = new Option(example_array[index], index);
-    }
+    db.collection("zones")
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                let option = document.createElement("option");
+                // setInfoZones(doc.data());
+                let country = doc.data().country;
+                option.text = country;
+                option.title = country;
+                option.value = country;
+                select.add(option);
+            });
+        });
+    loadCiudades();
 }
 
 function loadCiudades() {
 
+    var selected = document.getElementById("nombresPaises");
+    let actualCountry = selected.value;
     var select = document.getElementById("nombresCiudades");
+    console.log(actualCountry);
+    select.innerHTML = '';
 
-    var example_array = {
-        Quetzaltenango: 'Quetzaltenango',
-        Quiche: 'Quiche',
-        SanMarcos: 'San Marcos',
-        Totonicapan: 'Totonicapan',
-        Izabal: 'Izabal'
-    };
+    db.collection("zones")
+        .where("country", "==", actualCountry)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                let cities = doc.data().cities;
+                if (cities) {
+                    cities.forEach(city => {
+                        let option = document.createElement("option");
+                        option.text = city;
+                        option.title = city;
+                        select.add(option);
+                        // console.log(city);
+                    });
+                }
+            });
+        });
 
-    for (index in example_array) {
-        select.options[select.options.length] = new Option(example_array[index], index);
-    }
 }
 
 function reloadAll() {
     loadTransportes();
     loadMetodosEnvio();
+    loadZonasEnvio();
 }
