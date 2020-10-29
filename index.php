@@ -48,12 +48,12 @@
             <ul>
               <li class="active"><a href="index.php">Home</a></li>
               <li><a href="#about">Nosotros</a></li>
-              <li><a href="#services">Nuevo Producto</a></li>
-              <li><a href="#portfolio">Gestion Producto</a></li>
+              <li><a href="#services">Productos</a></li>
+              <li><a href="product.php">Gestion Producto</a></li>
               <li><a href="#Proveedor">Proveedores</a></li>
               <li><a href="#fabricante">Fabricantes</a></li>
               <li><a href="#tags">Tags</a></li>
-              <li><a href="#counts">Estadisticas</a></li>
+              <li><a href="clientes.php" onclick="misClientes()">Clientes</a></li>
               <li><a href="transporte.php">Transporte</a></li>
             </ul>
           </nav><!-- .nav-menu -->
@@ -178,24 +178,30 @@
                   <div class="section-title">
                     <p>Categoria</p>
                   </div>
-                  <input type="text" name="categoria" class="form-control" id="categoria" placeholder="Categoria del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
+                  <input type="text" name="categoria" class="form-control" id="categoria" list="listTags" placeholder="Categoria del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
                   <div class="validate"></div>
+                  <datalist id="listTags">
+                  </datalist>
                 </div>
                 <div class="col-md-6 form-group">
                   <div class="section-title">
                     <p>Proveedor</p>
                   </div>
-                  <input type="text" name="Proveedor" class="form-control" id="Proveedor" placeholder="Proveedor del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
+                  <input type="text" name="Proveedor" class="form-control" id="Proveedor" list="listProveedor" placeholder="Proveedor del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
                   <div class="validate"></div>
+                  <datalist id="listProveedor">
+                  </datalist>
                 </div>
                 <div class="col-md-6 form-group">
                   <div class="section-title">
                     <p>Fabricante</p>
                   </div>
-                  <input type="text" name="Fabricante" class="form-control" id="Fabricante" placeholder="Fabricante del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
+                  <input type="text" name="Fabricante" class="form-control" id="Fabricante" list="listFabricante" placeholder="Fabricante del Produto" data-rule="minlen:1" data-msg="Porfavor ingresa al menos 1 caracter" />
                   <div class="validate"></div>
+                  <datalist id="listFabricante">
+                  </datalist>
                 </div>
-              <div class="text-center">
+              <div class="container">
                 <button type="submit" id="boton" onclick="guardar()">Agregar Producto</button>
               </div>
             </form>
@@ -259,7 +265,7 @@
                    <option value="Inactivo">
                   </datalist>
                 </div>
-              <div class="text-center">
+              <div class="container">
                 <button type="submit" id="botonP" onclick="guardarProveedor()">Agregar Proveedor</button>
               </div>
             </form>
@@ -291,7 +297,7 @@
                   <div class="section-title">
                     <p>Nombre</p>
                   </div>
-                  <input type="text" name="nameF" class="form-control" id="nameF" placeholder="Nombre Proveedor" data-rule="minlen:6" data-msg="Porfavor ingresa al menos 6 caracteres" />
+                  <input type="text" name="nameF" class="form-control" id="nameF" placeholder="Nombre Fabricante" data-rule="minlen:6" data-msg="Porfavor ingresa al menos 6 caracteres" />
                   <div class="validate"></div>
                 </div>
                 <div class="col-md-6 form-group">
@@ -319,10 +325,14 @@
                   <div class="section-title">
                     <p>Estado</p>
                   </div>
-                  <input type="text" name="estadoF" class="form-control" id="estadoF" placeholder="Estado del fabricante" data-rule="minlen:2" data-msg="Porfavor ingresa al menos 6 caracteres" />
+                  <input type="text" name="estadoF" class="form-control" id="estadoF" list="listValue" placeholder="Estado del fabricante" data-rule="minlen:2" data-msg="Porfavor ingresa al menos 6 caracteres" />
                   <div class="validate"></div>
+                  <datalist id="listValue">
+                   <option value="Activo">
+                   <option value="Inactivo">
+                  </datalist>
                 </div>
-              <div class="text-center">
+              <div class="container">
                 <button type="submit" id="botonF" onclick="guardarFabricante()">Agregar Fabricante</button>
               </div>
             </form>
@@ -382,8 +392,12 @@
                   <div class="section-title">
                     <p>Estado</p>
                   </div>
-                  <input type="text" name="estadoT" class="form-control" id="estadoT" placeholder="Estado de la etiqueta" data-rule="minlen:3" data-msg="Estado de la etiqueta no valido" />
+                  <input type="text" name="estadoT" class="form-control" id="estadoT" list="listValue" placeholder="Estado de la etiqueta" data-rule="minlen:3" data-msg="Estado de la etiqueta no valido" />
                   <div class="validate"></div>
+                  <datalist id="listValue">
+                   <option value="Activo">
+                   <option value="Inactivo">
+                  </datalist>
                 </div>
                 <div class="col-md-6 form-group">
                   <div class="section-title">
@@ -392,7 +406,7 @@
                   <input type="text" name="portadaT" class="form-control" id="portadaT" placeholder="Portada de la Categoria" data-rule="minlen5" data-msg="Porfavor ingresa al menos 5 caracteres" />
                   <div class="validate"></div>
                 </div>
-              <div class="text-center">
+              <div class="container">
                 <button type="submit" id="botonT" onclick="guardarTag()">Agregar Tag</button>
               </div>
             </form>
@@ -400,162 +414,6 @@
         </div>
       </div>
     </section><!-- End Tags Section -->
-
-    <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Gestion de Productos</h2>
-          <p>Edicion de productos y visibilidad en tienda.</p>
-        </div>
-
-        <div class="row">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-app">Apple</li>
-              <li data-filter=".filter-card">Juegos</li>
-              <li data-filter=".filter-web">Android</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 1</h4>
-              <p>App</p>
-              <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 1"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 2</h4>
-              <p>App</p>
-              <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 2</h4>
-              <p>Card</p>
-              <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 2</h4>
-              <p>Web</p>
-              <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 2"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>App 3</h4>
-              <p>App</p>
-              <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="App 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 1</h4>
-              <p>Card</p>
-              <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Card 3</h4>
-              <p>Card</p>
-              <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-            <div class="portfolio-info">
-              <h4>Web 3</h4>
-              <p>Web</p>
-              <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-              <a href="portfolio-details.php" class="details-link" title="More Details"><i class="bx bx-link"></i></a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Portfolio Section -->
-    <!-- ======= Counts Section ======= -->
-    <section id="counts" class="counts">
-      <div class="container">
-
-        <div class="text-center title">
-          <h3>Datos generales de DROP-SHOP</h3>
-          <p>Estadisticas de la actividad de la tienda.</p>
-        </div>
-
-        <div class="row counters">
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">232</span>
-            <p>Clientes</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">521</span>
-            <p>Productos</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">1,463</span>
-            <p>Ventas</p>
-          </div>
-
-          <div class="col-lg-3 col-6 text-center">
-            <span data-toggle="counter-up">15</span>
-            <p>Ganancias</p>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Counts Section -->
-
-
-
-
 
   </main><!-- End #main -->
 
