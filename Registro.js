@@ -16,6 +16,12 @@ function guardarTag(){
   var updatedT = document.getElementById('updatedT').value;
   var estadoT = document.getElementById('estadoT').value;
   var portadaT = document.getElementById('portadaT').value;
+  var stateT;
+  if (estadoT=="Activo") {
+    stateT = "true";
+  }else{
+    stateT = "false";
+  }
   db.collection("tags").add({
       name: nameT,
       description: descripcionT,
@@ -26,6 +32,12 @@ function guardarTag(){
   })
   .then(function(docRef) {
       console.log("Tag escrito con ID: ", docRef.id);
+      document.getElementById('nameT').value='';
+      document.getElementById('descripcionT').value='';
+      document.getElementById('createdT').value='';
+      document.getElementById('updatedT').value='';
+      document.getElementById('estadoT').value='';
+      document.getElementById('portadaT').value='';
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
@@ -38,6 +50,12 @@ function guardarFabricante(){
   var createdF = document.getElementById('createdF').value;
   var updatedF = document.getElementById('updatedF').value;
   var estadoF = document.getElementById('estadoF').value;
+  var state;
+  if (estadoF=="Activo") {
+    state = "true";
+  }else{
+    state = "false";
+  }
   db.collection("fabricant").add({
       name: nameF,
       description: descripcionF,
@@ -47,6 +65,11 @@ function guardarFabricante(){
   })
   .then(function(docRef) {
       console.log("Fabricante escrito con ID: ", docRef.id);
+      document.getElementById('nameF').value='';
+      document.getElementById('descripcionF').value='';
+      document.getElementById('createdF').value='';
+      document.getElementById('updatedF').value='';
+      document.getElementById('estadoF').value='';
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
@@ -59,6 +82,12 @@ function guardarProveedor(){
   var createdP = document.getElementById('createdP').value;
   var updatedP = document.getElementById('updatedP').value;
   var estadoP = document.getElementById('estadoP').value;
+  var state;
+  if (estadoP=="Activo") {
+    state = "true";
+  }else{
+    state = "false";
+  }
   db.collection("providers").add({
       name: nameP,
       description: descripcionP,
@@ -68,6 +97,11 @@ function guardarProveedor(){
   })
   .then(function(docRef) {
       console.log("Proveedor escrito con ID: ", docRef.id);
+      document.getElementById('nameP').value='';
+      document.getElementById('descripcionP').value='';
+      document.getElementById('createdP').value='';
+      document.getElementById('updatedP').value='';
+      document.getElementById('estadoP').value='';
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
@@ -112,8 +146,60 @@ db.collection("products").add({
 })
 .then(function(docRef) {
     console.log("Producto escrito con ID: ", docRef.id);
+    document.getElementById('name').value = '';
+    document.getElementById('estado').value= '';
+    document.getElementById('descripcion').value= '';
+    document.getElementById('precio').value= '';
+    document.getElementById('valor').value= '';
+    document.getElementById('galeria').value= '';
+    document.getElementById('stock').value= '';
+    document.getElementById('created').value= '';
+    document.getElementById('updated').value= '';
+    document.getElementById('categoria').value= '';
+    document.getElementById('Proveedor').value= '';
+    document.getElementById('Fabricante').value= '';
 })
 .catch(function(error) {
     console.error("Error adding document: ", error);
 });
 }
+
+//leer documentos
+//documento para proveedores
+var prov = document.getElementById('listProveedor');
+db.collection("providers").onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().name}`);
+      prov.innerHTML +=
+      `
+      <option value="${doc.data().name}">
+
+      `
+  });
+});
+
+//documento para fabricantes
+var prov2 = document.getElementById('listFabricante');
+db.collection("fabricant").onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().name}`);
+      prov2.innerHTML +=
+      `
+      <option value="${doc.data().name}">
+
+      `
+  });
+});
+
+//documento para tags
+var prov3 = document.getElementById('listTags');
+db.collection("tags").onSnapshot((querySnapshot) => {
+  querySnapshot.forEach((doc) => {
+      console.log(`${doc.id} => ${doc.data().name}`);
+      prov3.innerHTML +=
+      `
+      <option value="${doc.data().name}">
+
+      `
+  });
+});
